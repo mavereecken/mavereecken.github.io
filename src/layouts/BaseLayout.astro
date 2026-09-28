@@ -1,0 +1,144 @@
+---
+import '@fontsource-variable/ibm-plex-sans';
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { NAV, SITE } from '../site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = SITE.description } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.title}` : SITE.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE.author} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Apply a stored theme choice before first paint, so there's no flash. -->
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+
+    {SITE.goatcounter && (
+      <script
+        is:inline
+        async
+        data-goatcounter={`https://${SITE.goatcounter}.goatcounter.com/count`}
+        src="//gc.zgo.at/count.js"
+      ></script>
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="container nav" aria-label="Main">
+        <a class="site-name" href="/">{SITE.title}</a>
+        <ul>
+          {NAV.map(({ href, label }) => (
+            <li>
+              <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>
+            </li>
+          ))}
+        </ul>
+        <ThemeToggle />
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p class="muted">© {year} {SITE.author}</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: var(--space-3);
+    top: -3rem;
+    padding: var(--space-2) var(--space-3);
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-radius: var(--radius);
+    z-index: 10;
+  }
+  .skip-link:focus { top: var(--space-2); }
+
+  .site-header { border-bottom: 1px solid var(--border); }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    min-height: 4rem;
+    flex-wrap: wrap;
+  }
+  .site-name {
+    font-weight: 600;
+    color: var(--fg);
+    text-decoration: none;
+    margin-right: auto;
+  }
+  .nav ul {
+    display: flex;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav ul a {
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+  .nav ul a:hover,
+  .nav ul a[aria-current='page'] { color: var(--fg); }
+  .nav ul a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.4em;
+  }
+
+  main { padding-block: var(--space-5); }
+
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding-block: var(--space-4);
+    font-size: var(--step--1);
+  }
+  .site-footer p { margin: 0; }
+
+  @media (max-width: 40rem) {
+    .nav { gap: var(--space-3); padding-block: var(--space-2); }
+    .nav ul { order: 3; width: 100%; gap: var(--space-3); }
+  }
+</style>
