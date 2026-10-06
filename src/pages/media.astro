@@ -2,15 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Intro from '../components/Intro.astro';
 import MediaList from '../components/MediaList.astro';
-
-// For now the home page is the media page. The research-forward home page
-// (hero, topic grid, bio) from PLAN.md comes back in phase 3/4.
 ---
 
-<BaseLayout>
+<BaseLayout title="Media">
   <div class="container">
     <Intro />
-    <h2 class="visually-hidden">Media</h2>
     <MediaList />
   </div>
 </BaseLayout>

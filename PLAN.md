@@ -3,7 +3,9 @@
 Status: design pinned down on 2026-09-28. Phase 0 and phase 1 done (2026-09-29):
 `presentations` repo at `~/projects/presentations`, first talk live at
 `https://mavereecken.github.io/presentations/2026/gravigammanu/`. Phase 2 done: main site skeleton live at
-`https://mavereecken.github.io/`. Next: phase 3 (needs your content, see §3). The one-time
+`https://mavereecken.github.io/`. Interim (2026-10-06): the site shows only a media
+page (name/position/affiliation + reusable media, §1 "Media page"); Research,
+Publications and CV are hidden. Next: phase 3 (needs your content, see §3). The one-time
 account/tooling setup is in [SETUP.md](SETUP.md).
 
 ---
@@ -39,6 +41,16 @@ may then still index the bare URL if someone links to it. The meta tag is the
 reliable mechanism for HTML. Non-HTML files (mp4, pdf) can't carry the tag, and
 Pages doesn't allow `X-Robots-Tag` headers. We accept that, since media files
 are only found through the slides.
+
+### Media page (interim home page)
+| Topic | Decision |
+|---|---|
+| Files | This repo, one folder per item: `public/media/<id>/` with the file(s) and an `info.yaml` (format in `src/content.config.ts`). Served at `/media/<id>/<file>` |
+| Why here | File and description in one commit/deploy; no cross-repo rebuild trigger. Talks can use the same files via `/media/<id>/<file>` (same domain) |
+| Size | Counts toward this site's ~1 GB Pages limit. If it grows past a few hundred MB, move big files to external storage |
+| Pages | `/media/` (stable URL) and, for now, also `/` |
+| Licence | Site-wide default in `src/site.ts` (`MEDIA.license`), overridable per item |
+| Hidden pages | `src/pages/_research.astro` etc.: the `_` prefix keeps them out of the build. Rename back and restore `NAV` to bring them back |
 
 ### Main site content
 | Section | v1? | Source |

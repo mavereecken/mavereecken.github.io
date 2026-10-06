@@ -29,6 +29,9 @@ decisions and phases, `SETUP.md` for the one-time setup.
 
 - Site-wide settings (name, nav, GoatCounter code): `src/site.ts`.
 - Design tokens and dark mode: `src/styles/global.css`.
+- Reusable media: `public/media/<id>/` (files + `info.yaml`), collection `media`
+  in `src/content.config.ts`. For now the site is only this media page; the other
+  pages are hidden by a `_` prefix in `src/pages/` and an empty `NAV`.
 - Markdown uses Astro 7's default Sätteri processor, not remark/rehype.
   Math is Sätteri's `features.math` plus `src/lib/satteri-katex.mjs`;
   `remark-math`/`rehype-katex` would need the unified processor and aren't used.
