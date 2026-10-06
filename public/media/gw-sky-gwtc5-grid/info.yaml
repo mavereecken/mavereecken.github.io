@@ -2,3 +2,5 @@ title: GW sky up to O4b (GWTC-5) - grid version
 description: Sky localizations of the gravitational-wave events observed up to the end of O4b, from GWTC-5.
 file: gw-sky-gwtc5-grid.mp4
 date: 2026-10-06
+credit: Matthias Vereecken (animation), GWOSC (data), ESO/S. Brunier (Milky way background)
+license: { name: CC BY 4.0, url: https://creativecommons.org/licenses/by/4.0/ }
